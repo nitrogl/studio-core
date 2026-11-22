@@ -1,0 +1,39 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The settings: libraries, themes and the language of the interface.
+ */
+
+.st-library .st-library-remove {
+  margin-left: auto;
+}
+
+.st-theme-colours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.st-theme-colour {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+/* The language of the interface, in the settings */
+.st-language-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.st-language-message {
+  margin-bottom: 0.5rem;
+}
+.st-language-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}

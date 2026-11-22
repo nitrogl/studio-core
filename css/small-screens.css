@@ -1,0 +1,60 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * Small screens. Last, so that it overrides the parts before it.
+ */
+
+@media (max-width: 900px) {
+  .st-left {
+    width: 210px !important;
+  }
+
+  .st-file-name,
+  .st-toggle .btn span {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The top bar wraps rather than scrolls when its menus are long, in some languages */
+  .st-topbar {
+    flex-wrap: wrap;
+    gap: 4px;
+    height: auto;
+    min-height: 46px;
+    padding: 6px;
+  }
+
+  .st-left,
+  .st-brand span,
+  .st-menus .dropdown:nth-child(4),
+  .st-history-buttons [data-command="redo"],
+  .st-view-toggle,
+  .st-verify #verify-button span {
+    display: none;
+  }
+
+  .st-menu-button {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 13px;
+  }
+
+  .st-editors[data-view="both"] #code-pane,
+  #diagram-pane > .ui-resizable-e {
+    display: none !important;
+  }
+
+  .st-editors[data-view="both"] #diagram-pane {
+    flex: 1 !important;
+    width: auto !important;
+  }
+
+  .st-tabs {
+    overflow-x: auto;
+  }
+
+  .st-tab {
+    padding: 6px 7px;
+  }
+}

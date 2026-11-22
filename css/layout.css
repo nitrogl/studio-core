@@ -1,0 +1,352 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The page: its basics, the top bar, the workspace and its panes.
+ */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--st-bg);
+  color: var(--st-text);
+  font-size: 13px;
+}
+
+body.st-file-over::after {
+  content: "Drop a model (.pv) and its hints (.pp)";
+  position: fixed;
+  inset: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed var(--st-accent);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 20px;
+  z-index: 3000;
+  pointer-events: none;
+}
+
+.st-mono,
+.st-code {
+  font-family: var(--st-mono);
+}
+
+.st-muted {
+  color: var(--st-muted);
+}
+
+.st-ok {
+  color: var(--st-ok);
+}
+
+.st-error {
+  color: var(--st-error);
+}
+
+.st-warning {
+  color: var(--st-warning);
+}
+
+.st-info {
+  color: var(--st-accent);
+}
+
+.st-spacer {
+  flex: 1;
+}
+
+.st-separator {
+  width: 1px;
+  height: 18px;
+  background: var(--st-border);
+  margin: 0 4px;
+}
+
+.st-empty {
+  padding: 10px 14px;
+  color: var(--st-muted);
+}
+
+kbd.st-shortcut {
+  margin-left: auto;
+  padding-left: 18px;
+  background: none;
+  color: var(--st-muted);
+  font-size: 11px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.dropdown-item > i {
+  width: 16px;
+  text-align: center;
+  color: var(--st-muted);
+}
+
+/*
+ * Top bar
+ */
+.st-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 12px;
+  background: var(--st-panel);
+  border-bottom: 1px solid var(--st-border);
+  flex: none;
+}
+
+.st-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--st-text);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.st-logo {
+  height: 28px;
+}
+
+.st-file-name {
+  color: var(--st-muted);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.st-file-name.st-dirty::after {
+  content: " \2022";
+  color: var(--st-warning);
+}
+
+.st-menus {
+  display: flex;
+}
+
+.st-menu-button,
+.st-icon-button,
+.st-tool {
+  color: var(--st-text);
+  border: none;
+}
+
+.st-menu-button:hover,
+.st-icon-button:hover,
+.st-tool:hover {
+  background: var(--st-hover);
+  color: var(--st-text);
+}
+
+.st-menu-button::after {
+  display: none;
+}
+
+.st-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.st-toggle .btn {
+  border: 1px solid var(--st-border);
+  color: var(--st-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.st-toggle .btn.active {
+  background: var(--st-accent-soft);
+  color: var(--st-text);
+  border-color: var(--st-accent);
+}
+
+/*
+ * Workspace
+ */
+.st-workspace {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.st-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--st-panel);
+  border-right: 1px solid var(--st-border);
+  position: relative;
+  min-width: 0;
+}
+
+.st-left {
+  width: 270px;
+  flex: none;
+}
+
+.st-panel-header,
+.st-pane-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--st-border);
+  color: var(--st-muted);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  flex: none;
+}
+
+.st-pane-header {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 12px;
+}
+
+.st-pane-title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.st-count {
+  background: var(--st-raised);
+  border-radius: 10px;
+  padding: 0 7px;
+  font-size: 11px;
+}
+
+.st-filter {
+  position: relative;
+  padding: 8px;
+}
+
+.st-filter i {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  color: var(--st-faint);
+  font-size: 11px;
+}
+
+.st-filter input {
+  padding-left: 28px;
+}
+
+.st-panel-body {
+  flex: 1;
+  overflow: auto;
+  padding-bottom: 20px;
+}
+
+.st-center {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.st-editors {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.st-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  background: var(--st-surface);
+}
+
+#diagram-pane {
+  flex: 1.4;
+  border-right: 1px solid var(--st-border);
+}
+
+#code-pane {
+  flex: 1;
+}
+
+.st-editors[data-view="diagram"] #code-pane,
+.st-editors[data-view="code"] #diagram-pane {
+  display: none;
+}
+
+.st-editors[data-view="diagram"] #diagram-pane {
+  flex: 1 !important;
+  width: auto !important;
+}
+
+.st-editors[data-view="code"] #code-pane {
+  flex: 1;
+}
+
+/* With one pane, there is no border to drag between the panes */
+.st-editors[data-view="diagram"] #diagram-pane > .ui-resizable-e {
+  display: none !important;
+}
+
+/*
+ * jQuery UI interactions (no theme)
+ */
+.ui-resizable-handle {
+  position: absolute;
+  z-index: 90;
+  display: block;
+}
+
+.ui-resizable-e {
+  cursor: ew-resize;
+  width: 7px;
+  right: -4px;
+  top: 0;
+  height: 100%;
+}
+
+.ui-resizable-n {
+  cursor: ns-resize;
+  height: 7px;
+  top: -4px;
+  left: 0;
+  width: 100%;
+}
+
+.ui-resizable-handle:hover {
+  background: var(--st-accent-soft);
+}
+
+.ui-sortable-helper {
+  box-shadow: var(--st-shadow);
+  opacity: 0.92;
+}
+
+.st-panning,
+.st-panning * {
+  cursor: grabbing !important;
+  user-select: none;
+}

@@ -1,0 +1,242 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The code view, and the regions behind its text.
+ */
+
+.st-code {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.st-check-status {
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.st-check-status.st-ok {
+  color: var(--st-ok);
+}
+
+.st-check-status.st-error {
+  color: var(--st-error);
+}
+
+.st-check-status.st-pending {
+  color: var(--st-muted);
+}
+
+.st-code-editor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  font-family: var(--st-mono);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.st-gutter {
+  width: 46px;
+  flex: none;
+  overflow: hidden;
+  background: var(--st-panel);
+  border-right: 1px solid var(--st-border);
+  color: var(--st-faint);
+  text-align: right;
+  user-select: none;
+}
+
+.st-ln {
+  height: 20px;
+  padding-right: 8px;
+}
+
+.st-ln-current {
+  color: var(--st-text);
+}
+
+.st-ln-error {
+  color: var(--st-error);
+  font-weight: 700;
+}
+
+.st-ln-warning {
+  color: var(--st-warning);
+}
+
+.st-code-main {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.st-code-layer,
+.st-code-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 6px 12px;
+  font: inherit;
+  line-height: 20px;
+  white-space: pre;
+  tab-size: 4;
+}
+
+.st-code-layer {
+  color: var(--st-text);
+  pointer-events: none;
+  overflow: visible;
+  background: none;
+  border: none;
+}
+
+.st-code-input {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--st-text);
+  overflow: auto;
+}
+
+.st-code-input::selection {
+  background: rgba(58, 160, 220, 0.35);
+  color: transparent;
+}
+
+.st-current-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: rgba(127, 127, 127, 0.07);
+  pointer-events: none;
+}
+
+.st-code-probe {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+}
+
+.st-code-tip {
+  position: absolute;
+  z-index: 50;
+  max-width: 520px;
+  padding: 6px 9px;
+  background: var(--st-raised);
+  border: 1px solid var(--st-border-strong);
+  border-radius: 6px;
+  box-shadow: var(--st-shadow);
+  font-family: var(--bs-body-font-family);
+  font-size: 12px;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.st-explain {
+  position: fixed;
+  z-index: 2000;
+  max-width: 360px;
+  padding: 7px 10px;
+  background: var(--st-raised);
+  border: 1px solid var(--st-border-strong);
+  border-left: 3px solid var(--st-accent);
+  border-radius: 6px;
+  box-shadow: var(--st-shadow);
+  font-family: var(--bs-body-font-family);
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.st-explain-title {
+  font-family: var(--st-mono);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.st-tip-error i {
+  color: var(--st-error);
+}
+
+.st-tip-warning i {
+  color: var(--st-warning);
+}
+
+.st-tk-kw { color: #c678dd; font-weight: 600; }
+.st-tk-kw2 { color: #e5c07b; }
+.st-tk-op { color: var(--st-muted); }
+.st-tk-num,
+.st-tk-str { color: #d19a66; }
+.st-tk-com { color: #6a7887; font-style: italic; }
+.st-tk-hint { color: #56b6c2; font-style: normal; font-weight: 600; }
+.st-tk-type { color: var(--st-type-color); }
+.st-tk-fun { color: #61afef; }
+.st-tk-event { color: var(--st-event-color); font-weight: 600; }
+.st-tk-table { color: #a77bdb; font-weight: 600; }
+.st-tk-name { color: #98c379; }
+.st-tk-proc { color: #e06c75; font-weight: 600; }
+.st-tk-pred { color: #e5c07b; }
+
+[data-bs-theme="light"] .st-tk-kw { color: #8839a8; }
+[data-bs-theme="light"] .st-tk-fun { color: #0b62b5; }
+[data-bs-theme="light"] .st-tk-name { color: #2f7a1d; }
+[data-bs-theme="light"] .st-tk-proc { color: #b4232c; }
+[data-bs-theme="light"] .st-tk-num,
+[data-bs-theme="light"] .st-tk-str { color: #9a5b16; }
+
+.st-d-error {
+  text-decoration: underline wavy var(--st-error);
+  text-underline-offset: 3px;
+}
+
+.st-d-warning {
+  text-decoration: underline wavy var(--st-warning);
+  text-underline-offset: 3px;
+}
+
+.st-hl {
+  background: var(--st-accent-soft);
+  outline: 0px solid color-mix(in srgb, var(--st-accent) 50%, transparent);
+}
+
+.st-hl-trace {
+  background: color-mix(in srgb, var(--st-trace) 30%, transparent);
+}
+
+.st-occurrence {
+  background: rgba(127, 127, 127, 0.22);
+}
+
+/*
+ * Regions behind the text
+ */
+.st-code-regions {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.st-region {
+  position: absolute;
+}
+
+.st-region.st-checked {
+  background: color-mix(in srgb, var(--st-accent) 12%, transparent);
+}
+
+.st-region.st-queued {
+  background: color-mix(in srgb, var(--st-warning) 16%, transparent);
+}
+
+.st-region.st-failed {
+  background: color-mix(in srgb, var(--st-error) 14%, transparent);
+}

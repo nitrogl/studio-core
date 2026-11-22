@@ -1,0 +1,449 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The diagram: lanes, blocks, arrows and palette.
+ */
+
+.st-diagram-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.st-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 58px;
+  flex: none;
+  padding: 8px 4px;
+  overflow-y: auto;
+  background: var(--st-panel);
+  border-right: 1px solid var(--st-border);
+}
+
+.st-palette-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 0 4px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--st-muted);
+  font-size: 10px;
+  cursor: grab;
+  user-select: none;
+}
+
+.st-palette-item:hover {
+  background: var(--st-hover);
+  border-color: var(--st-border-strong);
+  color: var(--st-text);
+}
+
+.st-palette-item i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 22px;
+  border-radius: 5px;
+  background: var(--st-kind);
+  color: #fff;
+  font-size: 11px;
+}
+
+/* The action being dragged, and its copy in a chain while it is dropped */
+.st-palette-item.ui-draggable-dragging,
+.st-seq > .st-palette-item {
+  flex-direction: row;
+  gap: 8px;
+  width: auto !important;
+  height: 2.15em !important;
+  padding: 0 0.8em 0 0;
+  background: var(--st-raised);
+  border-color: var(--st-accent);
+  color: var(--st-text);
+  font-family: var(--st-mono);
+  font-size: 0.9em;
+  box-shadow: var(--st-shadow);
+}
+
+.st-palette-item.ui-draggable-dragging i,
+.st-seq > .st-palette-item i {
+  height: 100%;
+  border-radius: 5px 0 0 5px;
+}
+
+.st-attacker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: 12px;
+  background: var(--st-attacker-active);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.st-attacker.st-passive {
+  background: var(--st-attacker-passive);
+}
+
+.st-stale {
+  display: none;
+  padding: 5px 12px;
+  background: rgba(217, 163, 38, 0.15);
+  color: var(--st-warning);
+  border-bottom: 1px solid var(--st-border);
+  font-size: 12px;
+}
+
+.st-diagram {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background-image: radial-gradient(var(--st-grid) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.st-diagram.st-dropping .st-seq {
+  outline: 1px dashed var(--st-border-strong);
+  outline-offset: 2px;
+}
+
+.st-canvas {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 4.5em;
+  padding: 1.4em 2em 3em;
+  min-width: max-content;
+}
+
+.st-arrows,
+.st-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* The lifelines run under the blocks, which hide them */
+.st-lines {
+  z-index: 0;
+}
+
+.st-lines path {
+  fill: none;
+  stroke: var(--st-border-strong);
+  stroke-width: 1.5;
+}
+
+.st-message {
+  fill: none;
+  stroke: var(--st-message);
+  stroke-width: 1.6;
+  pointer-events: stroke;
+}
+
+.st-message-private {
+  stroke-dasharray: 2 4;
+  stroke: var(--st-private-color);
+}
+
+#st-arrow-head path {
+  fill: var(--st-message);
+}
+
+.st-lane {
+  display: flex;
+  flex-direction: column;
+  min-width: 13em;
+  background: var(--st-lane);
+  border: 1px solid var(--st-border);
+  border-top: 3px solid var(--st-lane-color, var(--st-k-call));
+  border-radius: 8px;
+}
+
+.st-lane-main {
+  --st-lane-color: var(--st-muted);
+}
+
+/* Its parts, not the lane, so that the lifelines stay over its background */
+.st-lane.st-mirror > * {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+.st-lane-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.55em 0.8em;
+  border-bottom: 1px solid var(--st-border);
+  cursor: default;
+}
+
+.st-lane-title {
+  font-weight: 700;
+}
+
+.st-lane-subtitle {
+  color: var(--st-muted);
+  font-family: var(--st-mono);
+  font-size: 0.85em;
+}
+
+.st-lane-body {
+  padding: 0.9em 0.9em 0.6em;
+}
+
+.st-seq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 1.6em;
+  position: relative;
+}
+
+/* An input goes down below the output it receives (DiagramView.align) */
+.st-block {
+  --st-push: 0px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--st-push);
+}
+
+.st-block-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 2.15em;
+  padding: 0 0.6em 0 0;
+  background: var(--st-raised);
+  border: 1px solid var(--st-border-strong);
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 34em;
+  user-select: none;
+}
+
+.st-movable > .st-block-head {
+  cursor: grab;
+}
+
+.st-block-head:hover {
+  border-color: var(--st-accent);
+}
+
+.st-block-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 1.9em;
+  border-radius: 5px 0 0 5px;
+  background: var(--st-kind, var(--st-k-let));
+  color: #fff;
+  font-size: 0.85em;
+}
+
+.st-block-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.95em;
+}
+
+.st-block-label.st-code {
+  font-size: 0.9em;
+}
+
+.st-block-label .katex {
+  font-size: 1.08em;
+}
+
+.st-caption {
+  margin-left: 0.6em;
+  color: var(--st-muted);
+  font-size: 0.85em;
+}
+
+.st-eye {
+  border: none;
+  background: none;
+  color: var(--st-faint);
+  padding: 0 0.2em;
+  font-size: 0.85em;
+  visibility: hidden;
+}
+
+.st-block-head:hover .st-eye,
+.st-lane-header:hover .st-eye {
+  visibility: visible;
+}
+
+.st-eye:hover {
+  color: var(--st-text);
+}
+
+.st-symmetric {
+  border: none;
+  background: none;
+  color: var(--st-faint);
+  padding: 0 0.2em;
+  margin-left: auto;
+  font-size: 0.85em;
+}
+
+.st-symmetric:hover,
+.st-symmetric.st-on {
+  color: var(--st-accent);
+}
+
+.st-k-new { --st-kind: var(--st-k-new); }
+.st-k-in { --st-kind: var(--st-k-in); }
+.st-k-out { --st-kind: var(--st-k-out); }
+.st-k-let,
+.st-k-letfilter { --st-kind: var(--st-k-let); }
+.st-k-if { --st-kind: var(--st-k-if); }
+.st-k-event { --st-kind: var(--st-event-color); }
+.st-k-insert,
+.st-k-get { --st-kind: var(--st-table-color); }
+.st-k-call,
+.st-k-branch { --st-kind: var(--st-k-call); }
+.st-k-phase,
+.st-k-sync { --st-kind: var(--st-k-phase); }
+.st-k-repl,
+.st-k-par { --st-kind: var(--st-k-repl); }
+
+/* Events and table operations stand out: a coloured border and shadow */
+.st-k-event > .st-block-head {
+  border-color: var(--st-event-color);
+  box-shadow: 0 0 0 1px var(--st-event-color), 0 0 10px color-mix(in srgb, var(--st-event-color) 55%, transparent);
+}
+
+.st-k-insert > .st-block-head,
+.st-k-get > .st-block-head {
+  border-color: var(--st-table-color);
+  box-shadow: 0 0 0 1px var(--st-table-color), 0 0 10px color-mix(in srgb, var(--st-table-color) 55%, transparent);
+}
+
+/* Types in formulas: a coloured frame and shadow */
+.st-type {
+  color: var(--st-type-color);
+  padding: 0 .16em;
+}
+
+.st-raw {
+  font-size: 0.9em;
+}
+
+.st-private > .st-block-head {
+  border-style: dashed;
+}
+
+.st-block.st-selected > .st-block-head {
+  border-color: var(--st-accent);
+  box-shadow: 0 0 0 2px var(--st-accent);
+}
+
+.st-block.st-traced > .st-block-head {
+  outline: 2px solid var(--st-trace);
+  outline-offset: 2px;
+}
+
+.st-has-error > .st-block-head {
+  border-color: var(--st-error);
+  background: color-mix(in srgb, var(--st-error) 12%, var(--st-raised));
+}
+
+.st-has-warning > .st-block-head {
+  border-bottom: 2px solid var(--st-warning);
+}
+
+.st-end > .st-block-head {
+  min-height: 1.4em;
+  padding: 0 0.6em;
+  border-radius: 1em;
+  color: var(--st-faint);
+  font-family: var(--st-mono);
+  font-size: 0.8em;
+  background: var(--st-lane);
+  border-style: dashed;
+}
+
+/* The branches of a block, side by side under the bar of the fork */
+.st-branches {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6em;
+  margin-top: 0.3em;
+  padding-top: 1.1em;
+}
+
+/* Branches that join above the next block of the chain */
+.st-block:not(:last-child) > .st-branches {
+  padding-bottom: 1.1em;
+}
+
+.st-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* On the lifeline, which it hides */
+.st-branch-label {
+  position: relative;
+  padding: 0 0.45em;
+  margin-bottom: 0.4em;
+  border-radius: 50% 50% 0 50%;
+  background: var(--st-border-strong);
+  color: var(--st-kind);
+  font-size: 0.78em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.st-repl-body {
+  margin-top: 0.55em;
+  padding: 0.6em;
+  border: 1px dashed var(--st-k-repl);
+  border-radius: 6px;
+}
+
+.st-add {
+  position: relative;
+  border: 1px dashed var(--st-border-strong);
+  background: var(--st-lane);
+  color: var(--st-faint);
+  border-radius: 50%;
+  width: 1.7em;
+  height: 1.7em;
+  font-size: 0.8em;
+  padding: 0;
+}
+
+.st-add:hover {
+  border-color: var(--st-accent);
+  color: var(--st-accent);
+}
+
+.st-placeholder {
+  height: 2.15em;
+  width: 10em;
+  border: 1px dashed var(--st-accent);
+  border-radius: 6px;
+  background: var(--st-accent-soft);
+}

@@ -1,0 +1,30 @@
+{
+  "name": "studio-core",
+  "version": "3.5.0",
+  "private": true,
+  "type": "module",
+  "description": "The shared parts of PieStudio and CryStudio: text and history, notation in LaTeX with KaTeX, the views of the diagram and of the code, dialogs and themes",
+  "author": "Roberto Metere",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "watch": "tsc -b --watch",
+    "typecheck": "tsc -b && tsc -p tsconfig.node.json",
+    "test": "npm run typecheck && npx tsx tests/check-style.ts && npx tsx tests/check-core.ts",
+    "dist": "./dist.sh",
+    "docs": "tools/build-docs.sh"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "5.2.11",
+    "@types/jquery": "4.0.1",
+    "@types/jqueryui": "1.12.25",
+    "@types/node": "26.6.6",
+    "katex": "0.19.1",
+    "lightningcss-cli": "1.33.0",
+    "terser": "5.51.2",
+    "typescript": "7.0.2"
+  }
+}

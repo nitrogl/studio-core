@@ -1,0 +1,55 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The bar of a refactoring.
+ */
+
+.st-refactor {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--st-border);
+  background: color-mix(in srgb, var(--st-accent) 10%, var(--st-panel));
+  font-size: 12px;
+}
+
+.st-refactor-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.st-refactor-row select,
+.st-refactor-row input {
+  width: auto;
+  min-width: 120px;
+}
+
+.st-refactor-count {
+  color: var(--st-muted);
+}
+
+.st-refactor-problems,
+.st-refactor-lines {
+  margin-top: 4px;
+}
+
+.st-refactor-lines code {
+  margin-left: 8px;
+  color: var(--st-text);
+}
+
+.st-refactor-on {
+  background: var(--st-accent-soft);
+  outline: 2px solid var(--st-accent);
+  border-radius: 2px;
+}
+
+.st-refactor-off {
+  outline: 1px dashed var(--st-muted);
+  border-radius: 2px;
+}
+
+.st-read-only .st-code-input {
+  caret-color: transparent;
+  cursor: pointer;
+}

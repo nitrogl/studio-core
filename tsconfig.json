@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["jquery", "jqueryui", "bootstrap"],
+    "rootDir": "src",
+    "outDir": "js",
+    "declaration": true,
+    "incremental": true,
+    "tsBuildInfoFile": "js/tsconfig.tsbuildinfo",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "useDefineForClassFields": false,
+    "removeComments": false,
+    "newLine": "lf",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "types/**/*.d.ts"]
+}

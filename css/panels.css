@@ -1,0 +1,214 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The bottom panel: problems, output, history.
+ */
+
+.st-bottom {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 230px;
+  flex: none;
+  background: var(--st-panel);
+  border-top: 1px solid var(--st-border);
+}
+
+.st-bottom.st-closed {
+  height: 37px !important;
+}
+
+.st-bottom.st-closed .st-tab-panes {
+  display: none;
+}
+
+.st-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 36px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--st-border);
+  flex: none;
+}
+
+.st-tab {
+  border: none;
+  background: none;
+  color: var(--st-muted);
+  padding: 6px 10px;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.st-tab.active {
+  color: var(--st-text);
+  border-bottom-color: var(--st-accent);
+}
+
+.st-badge:not(:empty) {
+  display: inline-block;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--st-raised);
+  font-size: 10px;
+  text-align: center;
+}
+
+.st-badge.st-badge-error {
+  background: var(--st-error);
+  color: #fff;
+}
+
+.st-badge.st-badge-warning {
+  background: var(--st-warning);
+  color: #fff;
+}
+
+.st-badge.st-badge-ok {
+  background: var(--st-ok);
+  color: #fff;
+}
+
+.st-tab-panes {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.st-tab-pane {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+}
+
+.st-tab-pane.active {
+  display: block;
+}
+
+.st-problem {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 14px;
+  cursor: pointer;
+}
+
+.st-problem:hover {
+  background: var(--st-hover);
+}
+
+.st-problem-line {
+  color: var(--st-faint);
+  font-family: var(--st-mono);
+  font-size: 11px;
+  min-width: 52px;
+}
+
+.st-problem-source {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--st-accent);
+  border: 1px solid var(--st-accent);
+  border-radius: 8px;
+  padding: 0 6px;
+}
+
+.st-run-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+}
+
+.st-memory {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--st-muted);
+  font-size: 11px;
+}
+
+.st-memory-bar {
+  display: inline-block;
+  width: 90px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--st-raised);
+  overflow: hidden;
+}
+
+.st-memory-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--st-accent);
+}
+
+.st-results {
+  margin: 0 14px 10px;
+  width: calc(100% - 28px);
+  font-size: 12px;
+  --bs-table-bg: transparent;
+}
+
+.st-result {
+  cursor: pointer;
+}
+
+.st-result.st-selected td {
+  background: var(--st-accent-soft);
+}
+
+.st-goal {
+  font-family: var(--st-mono);
+}
+
+.st-verdict {
+  display: inline-block;
+  padding: 0 8px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.st-v-true { background: var(--st-ok); }
+.st-v-false { background: var(--st-error); }
+.st-v-other { background: var(--st-warning); }
+
+.st-trace-link {
+  color: var(--st-accent);
+}
+
+.st-output {
+  margin: 0;
+  padding: 8px 14px;
+  font-family: var(--st-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  color: var(--st-text);
+}
+
+.st-history-entry {
+  display: flex;
+  gap: 12px;
+  padding: 3px 14px;
+  cursor: pointer;
+}
+
+.st-history-entry:hover {
+  background: var(--st-hover);
+}
+
+.st-history-entry.st-undone {
+  color: var(--st-faint);
+  text-decoration: line-through;
+}
+
+.st-history-label {
+  flex: 1;
+}

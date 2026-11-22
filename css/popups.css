@@ -1,0 +1,169 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * Dialogs, menus, notices and tips.
+ */
+
+.modal-content {
+  background: var(--st-panel);
+}
+
+.st-form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--st-muted);
+  margin-bottom: 3px;
+}
+
+.st-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-bottom: 8px;
+}
+
+.st-check {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.st-check-name {
+  font-family: var(--st-mono);
+  font-weight: 600;
+}
+
+.st-check-hint {
+  color: var(--st-muted);
+}
+
+.st-row {
+  display: grid;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.st-row-1 { grid-template-columns: 1fr auto; }
+.st-row-2 { grid-template-columns: 1fr auto 1fr auto; }
+.st-row-3 { grid-template-columns: 1fr 1.4fr auto 1fr auto; }
+
+.st-row-sep {
+  color: var(--st-muted);
+  font-size: 12px;
+}
+
+.st-notation {
+  padding: 8px;
+  border: 1px solid var(--st-border);
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.st-decl-preview,
+.st-action-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--st-surface);
+  border: 1px solid var(--st-border);
+  min-height: 38px;
+}
+
+.st-code-preview {
+  margin: 0;
+  font-family: var(--st-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  color: var(--st-text);
+}
+
+.st-math-preview .katex {
+  font-size: 1.2em;
+}
+
+.st-source-input {
+  font-size: 12px;
+}
+
+.st-conventions {
+  border: 1px solid var(--st-border);
+  border-radius: 6px;
+  padding: 6px 10px 2px;
+  margin-bottom: 10px;
+}
+
+.st-conventions legend {
+  float: none;
+  width: auto;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 4px;
+  margin: 0;
+}
+
+.st-convention {
+  display: grid;
+  grid-template-columns: 220px 1fr 140px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.st-convention-label {
+  font-family: var(--st-mono);
+  font-size: 11px;
+  color: var(--st-muted);
+}
+
+.st-convention input[type="color"] {
+  height: 26px;
+  padding: 2px;
+}
+
+.st-toasts {
+  position: fixed;
+  top: 54px;
+  right: 14px;
+  z-index: 1090;
+}
+
+.st-context-menu {
+  position: fixed;
+  z-index: 2100;
+}
+
+.st-toast {
+  min-width: 300px;
+  background: var(--st-raised);
+  border: 1px solid var(--st-border-strong);
+}
+
+.st-toast-success i { color: var(--st-ok); }
+.st-toast-warning i { color: var(--st-warning); }
+.st-toast-error i { color: var(--st-error); }
+.st-toast-info i { color: var(--st-accent); }
+
+.st-tex-error {
+  color: var(--st-error);
+  font-family: var(--st-mono);
+}
+
+/* The editor of a file that the model needs (FileEditor) */
+.st-file-editor {
+  position: relative;
+  height: 60vh;
+  border: 1px solid var(--st-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.st-file-editor-status {
+  margin-top: 6px;
+}

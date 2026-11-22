@@ -1,0 +1,108 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ *
+ * The declarations, in the left panel.
+ */
+
+.st-group-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px 5px;
+  color: var(--st-muted);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.st-group-title .st-chevron {
+  font-size: 9px;
+  transition: transform 0.15s;
+}
+
+.st-group.st-collapsed .st-chevron {
+  transform: rotate(-90deg);
+}
+
+.st-group.st-collapsed .st-decl-list {
+  display: none;
+}
+
+.st-group-add {
+  margin-left: auto;
+  border: none;
+  background: none;
+  color: var(--st-muted);
+  border-radius: 4px;
+  width: 22px;
+  height: 22px;
+}
+
+.st-group-add:hover {
+  background: var(--st-hover);
+  color: var(--st-text);
+}
+
+.st-decl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 26px;
+  cursor: pointer;
+  min-height: 26px;
+  border-left: 2px solid transparent;
+}
+
+.st-decl:hover {
+  background: var(--st-hover);
+}
+
+.st-decl.st-selected {
+  background: var(--st-accent-soft);
+  border-left-color: var(--st-accent);
+}
+
+.st-decl-keyword {
+  color: var(--st-faint);
+  font-family: var(--st-mono);
+  font-size: 11px;
+}
+
+.st-decl-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.st-decl-label .katex {
+  font-size: 1.05em;
+}
+
+.st-modifier {
+  font-size: 10px;
+  padding: 0 5px;
+  border-radius: 8px;
+  border: 1px solid var(--st-border-strong);
+  color: var(--st-muted);
+}
+
+.st-d-eventdecl .st-decl-label {
+  color: var(--st-event-color);
+}
+
+.st-d-tabledecl .st-decl-label {
+  color: var(--st-table-color);
+}
+
+.st-more {
+  margin-left: 22px;
+  font-size: 12px;
+}
+
+.st-decl-placeholder {
+  height: 24px;
+  border: 1px dashed var(--st-accent);
+  margin: 2px 10px 2px 26px;
+}

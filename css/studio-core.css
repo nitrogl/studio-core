@@ -1,0 +1,20 @@
+/*
+ * Studio Core, by Roberto Metere. MIT licence (LICENSE).
+ * 
+ * The styles shared by the studios, one file for each part, in the order
+ * of the cascade.
+ *
+ * The page shall load Bootstrap, Font Awesome and KaTeX before this file.
+ */
+
+@import url("colours.css");
+@import url("layout.css");
+@import url("declarations.css");
+@import url("diagram.css");
+@import url("code.css");
+@import url("formulas.css");
+@import url("panels.css");
+@import url("popups.css");
+@import url("settings.css");
+@import url("refactoring.css");
+@import url("small-screens.css");

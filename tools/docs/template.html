@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- The template of the pages of a documentation, for pandoc (build-docs.sh). SPDX-License-Identifier: MIT -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>$pagetitle$ | $site-title$</title>
+    <link rel="stylesheet" href="$root$assets/style.css">
+    $if(code-actions)$
+      <script>window.codeActions = $code-actions$;</script>
+      <script src="$root$assets/code-actions.js" defer></script>
+    $endif$
+  </head>
+  <body>
+    <header class="site">
+      <a class="brand" href="$root$index.html">$site-title$</a>
+      <nav>$nav$</nav>
+    </header>
+    <div class="page$if(toc)$ with-toc$endif$">
+      <div class="heading">
+        $if(book)$
+          <p class="book">$book$</p>
+        $endif$
+        <h1 class="title" id="$title-id$">$title$</h1>
+      </div>
+      $if(toc)$
+        <aside class="toc">
+        <p>On this page</p>
+        $table-of-contents$
+        </aside>
+      $endif$
+      <main>
+        $body$
+        $if(prev-next)$
+          <nav class="prev-next">$prev-next$</nav>
+        $endif$
+        <footer>$footer$</footer>
+      </main>
+    </div>
+  </body>
+</html>
