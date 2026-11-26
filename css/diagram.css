@@ -259,7 +259,7 @@
 
 .st-block-label {
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
   font-size: 0.95em;
 }
