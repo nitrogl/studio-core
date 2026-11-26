@@ -13,7 +13,7 @@ class StudioCore {
    *
    * @type {string}
    */
-  static VERSION = "3.5.0";
+  static VERSION = "3.6.0";
 
   /**
    * The application, as configure() set it (see defaults()).
@@ -108,11 +108,62 @@ class StudioCore {
    * Gives the key of the browser storage for some settings of the
    * application.
    *
-   * @param {string} name The settings: "conventions", "theme" or "engine".
-   * @return {string} The key, for instance "piestudio.theme".
+   * @param {string} name The settings: "conventions", "appearance" or
+   *   "engine".
+   * @return {string} The key, for instance "piestudio.appearance".
    */
   static storageKey(name: string): string {
     return StudioCore.app.id + "." + name;
+  }
+
+  /**
+   * Gives the zoom of the page, which the size of the interface sets
+   * (ThemeSettings): a distance on the screen, as the pointer and
+   * getBoundingClientRect give it, divided by the zoom is a length of the
+   * page, for CSS and SVG.
+   *
+   * @return {number} The zoom, 1 for none.
+   */
+  static zoom(): number {
+    const body = typeof document === "undefined" ? null : document.body as any;
+    if (!body) {
+      return 1;
+    }
+    if (typeof body.currentCSSZoom === "number" && body.currentCSSZoom > 0) {
+      return body.currentCSSZoom;
+    }
+    return body.offsetWidth ? body.getBoundingClientRect().width/body.offsetWidth : 1;
+  }
+
+  /**
+   * Makes a panel that jQuery UI resizes follow the pointer under the zoom
+   * of the page: resizable changes its size by the distance that the
+   * pointer moved on the screen, which is the zoom times a length of the
+   * page.
+   *
+   * @param {Object} ui What resizable gives to its resize event: its size
+   *   changes.
+   */
+  static resizing(ui: any) {
+    const zoom = StudioCore.zoom();
+    ui.size.width = ui.originalSize.width + (ui.size.width - ui.originalSize.width)/zoom;
+    ui.size.height = ui.originalSize.height + (ui.size.height - ui.originalSize.height)/zoom;
+  }
+
+  /**
+   * Keeps the item that jQuery UI's sortable drags under the pointer, under
+   * the zoom of the page: sortable places it by the distance that the
+   * pointer moved on the screen. Its sort event calls it.
+   *
+   * @param {Object} ui What sortable gives to its sort event.
+   * @param {string} axis The only axis that the item moves along, "x" or
+   *   "y", or none.
+   */
+  static sorting(ui: any, axis: string = "") {
+    const zoom = StudioCore.zoom();
+    if (zoom !== 1) {
+      ui.helper.css(axis === "y" ? { top: ui.position.top/zoom } : axis === "x" ? { left: ui.position.left/zoom } : { left: ui.position.left/zoom, top: ui.position.top/zoom });
+    }
   }
 
   /**

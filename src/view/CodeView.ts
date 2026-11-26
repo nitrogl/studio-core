@@ -145,7 +145,7 @@ class CodeView {
   measure() {
     const $probe = $("<span class=\"st-code-probe\"></span>").text("x".repeat(100));
     this.$editor.find(".st-code-main").append($probe);
-    const width = $probe[0].getBoundingClientRect().width/100;
+    const width = $probe[0].getBoundingClientRect().width/100/StudioCore.zoom();
     $probe.remove();
     
     if (width > 0) {
@@ -662,14 +662,15 @@ class CodeView {
   offsetAt(event: any): number {
     const textarea = this.textarea;
     const box = textarea.getBoundingClientRect();
-    const y = event.clientY - box.top + textarea.scrollTop - CodeView.PAD_TOP;
+    const zoom = StudioCore.zoom();
+    const y = (event.clientY - box.top)/zoom + textarea.scrollTop - CodeView.PAD_TOP;
     const line = Math.floor(y/CodeView.LINE_H);
     
     if (line < 0 || line >= this.lineStarts.length) {
       return -1;
     }
     
-    const x = event.clientX - box.left + textarea.scrollLeft - CodeView.PAD_LEFT;
+    const x = (event.clientX - box.left)/zoom + textarea.scrollLeft - CodeView.PAD_LEFT;
     const start = this.lineStarts[line];
     const end = line + 1 < this.lineStarts.length ? this.lineStarts[line + 1] - 1 : this.text.length;
     let column = 0;
@@ -748,7 +749,8 @@ class CodeView {
         return;
       }
       const box = this.$editor.find(".st-code-main")[0].getBoundingClientRect();
-      this.$tip.html(lines.join("")).css({ left: Math.max(8, event.clientX - box.left + 12), top: event.clientY - box.top + 18 }).show();
+      const zoom = StudioCore.zoom();
+      this.$tip.html(lines.join("")).css({ left: Math.max(8, (event.clientX - box.left)/zoom + 12), top: (event.clientY - box.top)/zoom + 18 }).show();
     }, 350);
   }
 

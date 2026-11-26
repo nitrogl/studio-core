@@ -116,6 +116,11 @@ class DiagramView {
           this.dragging = true;
           this.$container.addClass("st-dropping");
         }
+      , drag: (event, ui) => {
+          const zoom = StudioCore.zoom();
+          ui.position.left /= zoom;
+          ui.position.top /= zoom;
+        }
       , stop: () => {
           this.dragging = false;
           this.$container.removeClass("st-dropping");
@@ -448,6 +453,7 @@ class DiagramView {
             view.moved = true;
           }
         , sort: function(this: HTMLElement, event, ui) {
+            StudioCore.sorting(ui);
             if (DiagramView.follow(ui.placeholder, event.clientY)) {
               $(this).sortable("refreshPositions");
             }
@@ -486,7 +492,7 @@ class DiagramView {
     const $chain = $placeholder.parent();
     const blocks = $chain.children(".st-block").not(".ui-sortable-helper").get();
     // The room that the placeholder takes, which the blocks after it give back
-    const room = $placeholder.outerHeight(true) + (parseFloat($chain.css("row-gap")) || 0);
+    const room = ($placeholder.outerHeight(true) + (parseFloat($chain.css("row-gap")) || 0))*StudioCore.zoom();
     const after = (block: Element) => ($placeholder[0].compareDocumentPosition(block) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
     const below = blocks.find(block => {
       const head = $(block).children(".st-block-head")[0].getBoundingClientRect();
@@ -589,6 +595,7 @@ class DiagramView {
       return first;
     });
     const delay = parseFloat($canvas.css("font-size"))*0.9;
+    const zoom = StudioCore.zoom();
     
     for (let round = 0; round < 12; round++) {
       let changed = false;
@@ -602,7 +609,7 @@ class DiagramView {
         
         const block = to.parentElement;
         const push = Number(block.getAttribute("data-push") || 0);
-        const missing = from.getBoundingClientRect().top + delay - to.getBoundingClientRect().top;
+        const missing = (from.getBoundingClientRect().top - to.getBoundingClientRect().top)/zoom + delay;
         
         if (missing > 0.5 && push < 800) {
           block.setAttribute("data-push", String(push + missing));
@@ -631,9 +638,11 @@ class DiagramView {
     }
     
     const origin = $canvas[0].getBoundingClientRect();
+    const zoom = StudioCore.zoom();
+    const y = (screen: number) => (screen - origin.top)/zoom;
     const box = (element: Element) => {
       const r = element.getBoundingClientRect();
-      return { x: Math.round(r.left + r.width/2 - origin.left) + 0.5, top: r.top - origin.top, bottom: r.bottom - origin.top };
+      return { x: Math.round((r.left + r.width/2 - origin.left)/zoom) + 0.5, top: y(r.top), bottom: y(r.bottom) };
     };
     // The block of an item of a chain, or the + that ends it
     const headOf = (item: Element) => ($(item).hasClass("st-block") ? $(item).children(".st-block-head")[0] : item);
@@ -669,7 +678,7 @@ class DiagramView {
             const first = firstOf($(this).children(".st-seq")[0]);
             return first ? box(headOf(first)) : null;
           }).get().filter(Boolean);
-          const bar = $branches[0].getBoundingClientRect().top - origin.top + parseFloat($canvas.css("font-size"))*0.35;
+          const bar = y($branches[0].getBoundingClientRect().top) + parseFloat($canvas.css("font-size"))*0.35;
           
           if (drops.length) {
             line(b.x, b.bottom, b.x, bar);
@@ -678,7 +687,7 @@ class DiagramView {
           }
           
           if (after) {
-            const join = $branches[0].getBoundingClientRect().bottom - origin.top - parseFloat($canvas.css("font-size"))*0.35;
+            const join = y($branches[0].getBoundingClientRect().bottom) - parseFloat($canvas.css("font-size"))*0.35;
             const ends = $branches.children(".st-branch").map(function() {
               const $chain = $(this).children(".st-seq");
               const last = $chain.children(".st-block, .st-add").last()[0];
@@ -700,7 +709,7 @@ class DiagramView {
           line(b.x, b.bottom, f.x, f.top);
           
           if (after) {
-            previous = { x: b.x, top: b.top, bottom: $(this).children(".st-repl-body")[0].getBoundingClientRect().bottom - origin.top };
+            previous = { x: b.x, top: b.top, bottom: y($(this).children(".st-repl-body")[0].getBoundingClientRect().bottom) };
           }
         }
       });
@@ -720,6 +729,7 @@ class DiagramView {
     this.connectPalette();
     this.drawLines();
     const origin = $canvas[0].getBoundingClientRect();
+    const zoom = StudioCore.zoom();
     svg.setAttribute("width", String($canvas[0].scrollWidth));
     svg.setAttribute("height", String($canvas[0].scrollHeight));
     $(svg).find("g").remove();
@@ -734,10 +744,10 @@ class DiagramView {
       const a = from.getBoundingClientRect();
       const b = to.getBoundingClientRect();
       const rightwards = b.left >= a.right;
-      const x1 = (rightwards ? a.right : a.left) - origin.left;
-      const y1 = a.top + a.height/2 - origin.top;
-      const x2 = (rightwards ? b.left : b.right) - origin.left;
-      const y2 = b.top + b.height/2 - origin.top;
+      const x1 = ((rightwards ? a.right : a.left) - origin.left)/zoom;
+      const y1 = (a.top + a.height/2 - origin.top)/zoom;
+      const x2 = ((rightwards ? b.left : b.right) - origin.left)/zoom;
+      const y2 = (b.top + b.height/2 - origin.top)/zoom;
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("d", "M" + x1 + "," + y1 + " L" + x2 + "," + y2);
       path.setAttribute("class", "st-message" + (link.private ? " st-message-private" : ""));

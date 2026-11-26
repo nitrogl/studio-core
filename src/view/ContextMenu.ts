@@ -70,9 +70,10 @@ class ContextMenu {
     this.$menu.css({ left: 0, top: 0 }).addClass("show");
     const width = this.$menu.outerWidth();
     const height = this.$menu.outerHeight();
+    const zoom = StudioCore.zoom();
     this.$menu.css({
-        left: Math.max(4, Math.min(x, window.innerWidth - width - 8))
-      , top: Math.max(4, Math.min(y, window.innerHeight - height - 8))
+        left: Math.max(4, Math.min(x/zoom, window.innerWidth/zoom - width - 8))
+      , top: Math.max(4, Math.min(y/zoom, window.innerHeight/zoom - height - 8))
     });
   }
 

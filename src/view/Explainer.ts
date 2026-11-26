@@ -124,8 +124,11 @@ class Explainer {
     this.$tip.html(html).css({ left: 0, top: 0 }).show();
     const width = this.$tip.outerWidth();
     const height = this.$tip.outerHeight();
-    const left = Math.max(8, Math.min(this.x + 14, window.innerWidth - width - 8));
-    const top = this.y + 20 + height > window.innerHeight ? Math.max(8, this.y - height - 12) : this.y + 20;
+    const zoom = StudioCore.zoom();
+    const x = this.x/zoom;
+    const y = this.y/zoom;
+    const left = Math.max(8, Math.min(x + 14, window.innerWidth/zoom - width - 8));
+    const top = y + 20 + height > window.innerHeight/zoom ? Math.max(8, y - height - 12) : y + 20;
 
     this.$tip.css({ left: left, top: top });
   }

@@ -17,10 +17,10 @@ class Panning {
         return;
       }
       event.preventDefault();
-      const from = { x: event.clientX, y: event.clientY, left: element.scrollLeft, top: element.scrollTop };
+      const from = { x: event.clientX, y: event.clientY, left: element.scrollLeft, top: element.scrollTop, zoom: StudioCore.zoom() };
       const move = (moved: MouseEvent) => {
-        element.scrollLeft = from.left - (moved.clientX - from.x);
-        element.scrollTop = from.top - (moved.clientY - from.y);
+        element.scrollLeft = from.left - (moved.clientX - from.x)/from.zoom;
+        element.scrollTop = from.top - (moved.clientY - from.y)/from.zoom;
       };
       const stop = () => {
         document.removeEventListener("mousemove", move);

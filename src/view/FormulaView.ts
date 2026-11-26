@@ -205,7 +205,7 @@ class FormulaView {
       best.classList.add("st-formula-hl");
     }
     const root = this.$root[0];
-    const top = row.getBoundingClientRect().top - root.getBoundingClientRect().top + root.scrollTop;
+    const top = (row.getBoundingClientRect().top - root.getBoundingClientRect().top)/StudioCore.zoom() + root.scrollTop;
     if (top < root.scrollTop || top + row.offsetHeight > root.scrollTop + root.clientHeight) {
       root.scrollTop = Math.max(0, top - root.clientHeight/3);
     }

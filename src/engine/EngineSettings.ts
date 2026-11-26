@@ -46,7 +46,8 @@ class EngineSettings {
     const memory = Number(values.maxMemoryMB);
     this.maxMemoryMB = memory === 0 ? 0 : EngineSettings.clamp(memory || defaults.maxMemoryMB, 64, 4095);
     this.timeoutSeconds = Math.max(0, Number(values.timeoutSeconds) || 0);
-    this.extraArgs = String(values.extraArgs || "");
+    const args = typeof values.extraArgs === "string" ? values.extraArgs.trim() : "";
+    this.extraArgs = args === "undefined" || args === "null" ? "" : args;
     this.liveChecks = values.liveChecks !== false;
   }
 

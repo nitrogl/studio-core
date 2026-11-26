@@ -98,7 +98,7 @@ class ThemeSettings {
       , font: ""
       , size: 100
     };
-    const merged = {...defaults, ...values};
+    const merged = {...defaults, ...(values && typeof values === "object" ? values : {})};
     this.preset = ThemeSettings.PRESETS[merged.preset] ? merged.preset : "studio";
     this.colours = {...merged.colours};
     this.font = String(merged.font || "");
@@ -106,11 +106,27 @@ class ThemeSettings {
   }
 
   /**
+   * Gives the theme kept in the browser. Up to Studio Core 3.5 it was kept
+   * under the key of the light or dark choice of the studios, which wrote
+   * over each other: a theme found there moves to its own key, and the
+   * choice is left to the studio.
+   *
    * @return {ThemeSettings} The theme kept in the browser.
    */
   static load(): ThemeSettings {
     try {
-      return new ThemeSettings(JSON.parse(localStorage.getItem(StudioCore.storageKey("theme")) || "{}"));
+      const kept = localStorage.getItem(StudioCore.storageKey("appearance"));
+      if (kept !== null) {
+        return new ThemeSettings(JSON.parse(kept));
+      }
+      const old = JSON.parse(localStorage.getItem(StudioCore.storageKey("theme")) || "null");
+      if (old && typeof old === "object") {
+        const theme = new ThemeSettings(old);
+        localStorage.removeItem(StudioCore.storageKey("theme"));
+        theme.save();
+        return theme;
+      }
+      return new ThemeSettings();
     } catch (e) {
       return new ThemeSettings();
     }
@@ -121,7 +137,7 @@ class ThemeSettings {
    */
   save() {
     try {
-      localStorage.setItem(StudioCore.storageKey("theme"), JSON.stringify({ preset: this.preset, colours: this.colours, font: this.font, size: this.size }));
+      localStorage.setItem(StudioCore.storageKey("appearance"), JSON.stringify({ preset: this.preset, colours: this.colours, font: this.font, size: this.size }));
     } catch (e) {
       // Without storage the theme lasts for this visit only
     }
